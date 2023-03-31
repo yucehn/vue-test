@@ -27,13 +27,16 @@ describe("test ToDoList", () => {
     expect(wrapper.vm.todoInput.length).toBe(length);
   });
 
-  it("輸入框有值，enter的時候，todoList列表將新增一條數據，同時清空輸入框", () => {
+  it("輸入框有值，enter&click時，todoList列表將新增一條數據，同時清空輸入框", () => {
     const wrapper = shallowMount(ToDoList);
     const length = wrapper.vm.todoInput.length;
     const input = wrapper.find(".to-do-text");
-    input.setValue("請完成任務");
+    input.setValue("請完成任務1");
     input.trigger("keyup.enter");
     expect(wrapper.vm.todoList.length).toBe(length + 1);
+    input.setValue("請完成任務2");
+    wrapper.find(".btn_add").trigger("click");
+    expect(wrapper.vm.todoList.length).toBe(length + 2);
     expect(wrapper.vm.todoInput.length).toBe(0);
   });
   // 建立第一筆資料

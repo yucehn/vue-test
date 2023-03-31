@@ -8,7 +8,7 @@
         @keyup.enter="add"
         placeholder="請輸入計畫要做的事情"
       />
-      <button @click="add()" type="submit">click</button>
+      <button class="btn_add" @click="add()" type="submit">click</button>
     </div>
     <div v-show="todoList.length" class="todoList-box">
       <div class="tab">
