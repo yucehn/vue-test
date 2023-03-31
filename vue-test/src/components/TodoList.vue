@@ -41,7 +41,9 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
+// import * as axios from "../../__mocks__/axios";
+
 export default {
   setup() {
     const tab = ref(0);
@@ -83,6 +85,19 @@ export default {
           });
         default:
           return todoList.value;
+      }
+    });
+
+    onMounted(() => {
+      {
+        // axios
+        //   .get("toToList.json")
+        //   .then((res) => {
+        //     todoList.value = res.data;
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   });
       }
     });
 

@@ -52,6 +52,7 @@ describe("test ToDoList", () => {
     wrapper.find('[data-test="box_input"]').trigger("blur");
     expect(wrapper.vm.todoList[0].value).toBe("練習程式30分鐘");
   });
+
   it("todoList列表點擊刪除，同時更新toDoList數組", async () => {
     const wrapper = shallowMount(ToDoList);
     await createToDOItem(wrapper);
@@ -107,4 +108,14 @@ describe("test ToDoList", () => {
     wrapper.find('[test-tab="all"]').trigger("click");
     expect(wrapper.vm.filterTodoLis.length).toBe(3);
   });
+
+  // it("當頁面掛載的時候去請求數據，請求成功後應該會返回2條數據", (done) => {
+  //   const wrapper = shallowMount(ToDoList);
+  //   wrapper.vm.$nextTick(() => {
+  //     expect(wrapper.vm.todoList.length).toBe(2);
+  //     wrapper.find(".btn_delete").trigger("click");
+  //     expect(wrapper.vm.todoList.length).toBe(0);
+  //     done();
+  //   });
+  // });
 });
