@@ -10,30 +10,26 @@
       />
       <button @click="add()" type="submit">click</button>
     </div>
+    {{ todoList }}
     <div v-show="todoList.length" class="todoList-box">
       <div class="tab">
-        <button test-tab="all" @click="tab = 0" type="button">全部</button>
-        <button test-tab="done" @click="tab = 1" type="button">已完成</button>
-        <button test-tab="undone" @click="tab = 2" type="button">未完成</button>
+        <button @click="tab = 0" type="button">全部</button>
+        <button @click="tab = 1" type="button">已完成</button>
+        <button @click="tab = 2" type="button">未完成</button>
       </div>
       <ul v-show="filterTodoLis.length">
         <li v-for="(item, index) in filterTodoLis" :key="item">
-          <input
-            type="checkbox"
-            name="item"
-            v-model="item.toggle"
-            @click="changeToggle(index, !item.toggle)"
-          />
+          <input type="checkbox" name="item" v-model="item.toggle" />
           <div>
             <input
               data-test="box_input"
               class="todoList-box_input"
               v-model="item.value"
-              @blur="editValue(index, $event)"
+              @blur="setValue(index, $event)"
               type="text"
             />
           </div>
-          <button class="btn_delete" @click="deleteItem(index)">X</button>
+          <button @click="deleteItem(index)">X</button>
         </li>
       </ul>
     </div>
@@ -57,17 +53,10 @@ export default {
       todoList.value.splice(index, 1);
     };
 
-    const editValue = (index, e) => {
+    const setValue = (index, e) => {
       todoList.value.splice(index, 1, {
         value: e.target.value,
         toggle: todoList.value[index].toggle,
-      });
-    };
-
-    const changeToggle = (index, toggle) => {
-      todoList.value.splice(index, 1, {
-        value: todoList.value[index].value,
-        toggle: toggle,
       });
     };
 
@@ -93,8 +82,7 @@ export default {
       todoList,
       add,
       deleteItem,
-      editValue,
-      changeToggle,
+      setValue,
     };
   },
 };

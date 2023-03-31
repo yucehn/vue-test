@@ -1,5 +1,7 @@
 <template>
   <div class="home">
+    <HelloWorld msg="Welcome to Your Vue.js App" @greet="greetUpdate" /> -->
+    greet: {{ greet }}
     <TodoList />
   </div>
 </template>
@@ -7,10 +9,12 @@
 <script>
 import { ref } from "vue";
 import TodoList from "@/components/TodoList.vue";
+import HelloWorld from "@/components/HelloWorld.vue";
 
 export default {
   name: "HomeView",
   components: {
+    HelloWorld,
     TodoList,
   },
   setup() {
