@@ -9,7 +9,7 @@ context('Connectors', () => {
     // https://on.cypress.io/each
     cy.get('.connectors-each-ul>li')
       .each(($el, index, $list) => {
-        console.log($el, index, $list)
+        console.log('each: ', $el, index, $list)
       })
   })
 
@@ -36,11 +36,17 @@ context('Connectors', () => {
   it('.spread() - spread an array as individual args to callback function', () => {
     // https://on.cypress.io/spread
     const arr = ['foo', 'bar', 'baz']
+    // const test = {a:1,b:2,c:3} // fail，spread 只能拆array
+    const test = [{a:1}, {b:2}, {c:3}]
 
     cy.wrap(arr).spread((foo, bar, baz) => {
       expect(foo).to.eq('foo')
       expect(bar).to.eq('bar')
       expect(baz).to.eq('baz')
+    })
+    
+    cy.wrap(test).spread((test1, test2, test3)=>{
+      cy.log('testItem', test1, test2, test3)
     })
   })
 

@@ -22,7 +22,7 @@ context('Assertions', () => {
         // to match text content against a regular expression
         // first need to invoke jQuery method text()
         // and then match using regular expression
-        .invoke('text')
+        .invoke('text') // 調用jquery方法'text'
         .should('match', /column content/i)
 
       // a better way to check element's text content against a regular expression
@@ -55,9 +55,11 @@ context('Assertions', () => {
       const o = { foo: 'bar' }
 
       expect(o).to.equal(o)
-      expect(o).to.deep.equal({ foo: 'bar' })
+      expect(o).to.deep.equal({ foo: 'bar' }) // deep 深度解構
       // matching text using regular expression
       expect('FooBar').to.match(/bar$/i)
+
+      expect([1, 2, 3], 'order 確認是否排序').to.have.ordered.members([1, 2, 3]) // ordered: 是否有排序; members:確認長度(前後長度需一致)
     })
 
     it('pass your own callback function to should()', () => {
@@ -70,7 +72,11 @@ context('Assertions', () => {
         .should(($p) => {
           // https://on.cypress.io/$
           // return an array of texts from all of the p's
-          const texts = $p.map((i, el) => Cypress.$(el).text())
+          const texts = $p.map((i, el) => {
+            // Cypress.$ => 指的是jQuery函數本身
+            // cy.$$ => 只能使用 查詢 DOM 元素 (jQuery.fn.init)
+            return Cypress.$(el).text() // cy.$$(el).text()
+          })
 
           // jquery map returns jquery object
           // and .get() convert this to simple array

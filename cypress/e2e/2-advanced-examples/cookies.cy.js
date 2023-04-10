@@ -32,7 +32,7 @@ context('Cookies', () => {
       expect(cookies[0]).to.have.property('value', '123ABC')
       expect(cookies[0]).to.have.property('httpOnly', false)
       expect(cookies[0]).to.have.property('secure', false)
-      expect(cookies[0]).to.have.property('domain')
+      expect(cookies[0]).to.have.property('domain').eq('example.cypress.io')
       expect(cookies[0]).to.have.property('path')
     })
   })
@@ -41,19 +41,22 @@ context('Cookies', () => {
     // https://on.cypress.io/getallcookies
     cy.getAllCookies().should('be.empty')
 
-    cy.setCookie('key', 'value')
+    cy.setCookie('key', '我要改變value')
     cy.setCookie('key', 'value', { domain: '.example.com' })
 
     // cy.getAllCookies() yields an array of cookies
     cy.getAllCookies().should('have.length', 2).should((cookies) => {
       // each cookie has these properties
+      console.log('cookies[0]-1', cookies[0]);
       expect(cookies[0]).to.have.property('name', 'key')
-      expect(cookies[0]).to.have.property('value', 'value')
+      expect(cookies[0]).to.have.property('value', '我要改變value')
       expect(cookies[0]).to.have.property('httpOnly', false)
       expect(cookies[0]).to.have.property('secure', false)
       expect(cookies[0]).to.have.property('domain')
       expect(cookies[0]).to.have.property('path')
+      console.log('cookies[0]-2', cookies[0]);
 
+      console.log('cookies[1]', cookies[1]);
       expect(cookies[1]).to.have.property('name', 'key')
       expect(cookies[1]).to.have.property('value', 'value')
       expect(cookies[1]).to.have.property('httpOnly', false)

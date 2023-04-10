@@ -13,7 +13,7 @@ context('Aliasing', () => {
     // later in our code, we reference it with @
 
     cy.get('.as-table').find('tbody>tr')
-      .first().find('td').first()
+      .first().find('td').first() // first 第一個元素
       .find('button').as('firstBtn')
 
     // when we reference the alias, we place an
@@ -27,7 +27,7 @@ context('Aliasing', () => {
 
   it('.as() - alias a route for later use', () => {
     // Alias the route to wait for its response
-    cy.intercept('GET', '**/comments/*').as('getComment')
+    cy.intercept('GET', '**/comments/*').as('getComment') // intercept 監視和響應存根
 
     // we have code that gets a comment when
     // the button is clicked in scripts.js
@@ -35,5 +35,8 @@ context('Aliasing', () => {
 
     // https://on.cypress.io/wait
     cy.wait('@getComment').its('response.statusCode').should('eq', 200)
+    // cy.get('@getComment').its('response').then((response)=>{ // 取出 response
+    //   console.log('response', response.body.email)
+    // })
   })
 })
