@@ -31,7 +31,7 @@ context('Navigation', () => {
     // https://on.cypress.io/reload
     cy.reload()
 
-    // reload the page without using the cache
+    // reload the page without using the cache // 不使用緩存重新加載頁面
     cy.reload(true)
   })
 

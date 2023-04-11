@@ -35,14 +35,14 @@ context('Network Requests', () => {
     // https://jsonplaceholder.cypress.io/comments?postId=1&id=3
     cy.request({
       url: 'https://jsonplaceholder.cypress.io/comments',
-      qs: {
+      qs: { // qs 查詢參數追加到請求的 url
         postId: 1,
         id: 3,
       },
     })
     .its('body')
     .should('be.an', 'array')
-    .and('have.length', 1)
+    .and('have.length', 1) // 500筆資料經qs條件篩選，只剩下1筆
     .its('0') // yields first element of the array
     .should('contain', {
       postId: 1,
@@ -54,7 +54,7 @@ context('Network Requests', () => {
     // first, let's find out the userId of the first user we have
     cy.request('https://jsonplaceholder.cypress.io/users?_limit=1')
       .its('body') // yields the response object
-      .its('0') // yields the first element of the returned list
+      .its('0') // yields the first element of the returned list // 產生返回列表的第一個元素
       // the above two commands its('body').its('0')
       // can be written as its('body.0')
       // if you do not care about TypeScript checks
@@ -70,10 +70,12 @@ context('Network Requests', () => {
       // note that the value here is the returned value of the 2nd request
       // which is the new post object
       .then((response) => {
-        expect(response).property('status').to.equal(201) // new entity created
+        console.log('response', response)
+        expect(response).property('status').to.equal(201) // new entity created // 通常201狀態碼用在POST的新增請求成功的回應結果;若POST新增成功的資源是直接放在回應主體回傳則用200 OK。
         expect(response).property('body').to.contain({
           title: 'Cypress Test Runner',
         })
+        // expect(response).property('body').property('title').to.contain('Cypress Test Runner')
 
         // we don't know the exact post id - only that it will be > 100
         // since JSONPlaceholder has built-in 100 posts
@@ -89,7 +91,7 @@ context('Network Requests', () => {
   it('cy.request() - save response in the shared test context', () => {
     // https://on.cypress.io/variables-and-aliases
     cy.request('https://jsonplaceholder.cypress.io/users?_limit=1')
-      .its('body').its('0') // yields the first element of the returned list
+      .its('body.0') // yields the first element of the returned list // .its('body').its('0')
       .as('user') // saves the object in the test context
       .then(function () {
         // NOTE 👀
@@ -100,7 +102,7 @@ context('Network Requests', () => {
         //  otherwise "this" points at a wrong or undefined object!
         cy.request('POST', 'https://jsonplaceholder.cypress.io/posts', {
           userId: this.user.id,
-          title: 'Cypress Test Runner',
+          title: 'Cypress Test Runner' + this.user.id,
           body: 'Fast, easy and reliable testing for anything that runs in a browser.',
         })
         .its('body').as('post') // save the new post from the response
@@ -126,7 +128,7 @@ context('Network Requests', () => {
     cy.get('.network-btn').click()
 
     // https://on.cypress.io/wait
-    cy.wait('@getComment').its('response.statusCode').should('be.oneOf', [200, 304])
+    cy.wait('@getComment').its('response.statusCode').should('be.oneOf', [200, 304]) // 200 伺服器回應Data成功;304 已讀取過的圖片或網頁，由瀏覽器緩存 (cache) 中讀取
 
     // Listen to POST to comments
     cy.intercept('POST', '**/comments').as('postComment')

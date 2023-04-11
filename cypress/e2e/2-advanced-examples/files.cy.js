@@ -12,7 +12,7 @@ context('Files', () => {
   beforeEach(() => {
     // load example.json fixture file and store
     // in the test context object
-    cy.fixture('example.json').as('example')
+    cy.fixture('example.json').as('example') // 從 example.json 載入數據
   })
 
   it('cy.fixture() - load a fixture', () => {
@@ -23,24 +23,23 @@ context('Files', () => {
 
     // when application makes an Ajax request matching "GET **/comments/*"
     // Cypress will intercept it and reply with the object in `example.json` fixture
-    cy.intercept('GET', '**/comments/*', { fixture: 'example.json' }).as('getComment')
+    cy.intercept('GET', '**/comments/*', { fixture: 'example.json' }).as('getComment') // 更換為 example.json
 
     // we have code that gets a comment when
     // the button is clicked in scripts.js
     cy.get('.fixture-btn').click()
 
     cy.wait('@getComment').its('response.body')
-      .should('have.property', 'name')
-      .and('include', 'Using fixtures to represent data')
+      .should('have.property', 'message')
+      .and('include', 'test message')
   })
 
   it('cy.fixture() or require - load a fixture', function () {
     // we are inside the "function () { ... }"
     // callback and can use test context object "this"
-    // "this.example" was loaded in "beforeEach" function callback
+    // "this.example" was loaded in "beforeEach" function callback (可使用beforeEach中方法，使用this.example叫出資料)
     expect(this.example, 'fixture in the test context')
       .to.deep.equal(requiredExample)
-
     // or use "cy.wrap" and "should('deep.equal', ...)" assertion
     cy.wrap(this.example)
       .should('deep.equal', requiredExample)
@@ -78,6 +77,7 @@ context('Files', () => {
       id: 8739,
       name: 'Jane',
       email: 'jane@example.com',
+      // memo: 'Vip'
     })
 
     cy.fixture('profile').should((profile) => {

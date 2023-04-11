@@ -9,7 +9,7 @@ context('Cypress.Commands', () => {
 
   it('.add() - create a custom command', () => {
     Cypress.Commands.add('console', {
-      prevSubject: true,
+      prevSubject: true, // Boolean ， String 或 Array
     }, (subject, method) => {
       // the previous subject is automatically received
       // and the commands arguments are shifted
@@ -26,6 +26,7 @@ context('Cypress.Commands', () => {
       return subject
     })
 
+    // 通過設置 { prevSubject: true } ，新的 .console() 命令將需要一個主題。
     cy.get('button').console('info').then(($button) => {
       // subject is still $button
     })
@@ -39,8 +40,9 @@ context('Cypress.Cookies', () => {
 
   // https://on.cypress.io/cookies
   it('.debug() - enable or disable debugging', () => {
-    Cypress.Cookies.debug(true)
-
+    // cy.debug().getCookie('fakeCookie') // 在命令開始時暫停調試
+    // cy.getCookie('fakeCookie').debug() // 調試`get`命令時暫停
+    Cypress.Cookies.debug(true) // 紀錄Cookies變化
     // Cypress will now log in the console when
     // cookies are set or cleared
     cy.setCookie('fakeCookie', '123ABC')
@@ -59,6 +61,7 @@ context('Cypress.arch', () => {
   it('Get CPU architecture name of underlying OS', () => {
     // https://on.cypress.io/arch
     expect(Cypress.arch).to.exist
+    //  Node 的 os.arch()返回 [返回操作系統 CPU 架構，可能的值有 "x64"、"arm" 和 "ia32"。]
   })
 })
 
@@ -103,8 +106,9 @@ context('Cypress.dom', () => {
     let visibleP = Cypress.$('.dom-p p.visible').get(0)
 
     // our first paragraph has css class 'hidden'
-    expect(Cypress.dom.isHidden(hiddenP)).to.be.true
-    expect(Cypress.dom.isHidden(visibleP)).to.be.false
+    expect(Cypress.dom.isHidden(hiddenP)).to.be.true // isHidden 是否隱藏
+    expect(Cypress.dom.isVisible(visibleP)).to.be.true // isVisible 是否可見
+
   })
 })
 
@@ -131,7 +135,7 @@ context('Cypress.env()', () => {
     Cypress.env('api_server', 'http://localhost:8888/v2/')
     expect(Cypress.env('api_server')).to.eq('http://localhost:8888/v2/')
 
-    // get all environment variable
+    // get all environment variable - Cypress.env()
     expect(Cypress.env()).to.have.property('host', 'veronica.dev.local')
     expect(Cypress.env()).to.have.property('api_server', 'http://localhost:8888/v2/')
   })
@@ -144,6 +148,16 @@ context('Cypress.log', () => {
 
   it('Control what is printed to the Command Log', () => {
     // https://on.cypress.io/cypress-log
+    Cypress.log({
+      name: 'test-setLog',
+      displayName: 'setLog', // 命令日誌的簡稱
+      message: `hello cypress`,
+    })
+    // cy.log('message')
+    // cy.log('another message', ['one', 'two', 'three'])
+
+    // cy.task('log', 'This will be output to the terminal') // 顯示在終端機，須先設定config
+    // cy.task('hello', { greeting: 'Hello', name: 'World' })
   })
 })
 
@@ -154,7 +168,7 @@ context('Cypress.platform', () => {
 
   it('Get underlying OS name', () => {
     // https://on.cypress.io/platform
-    expect(Cypress.platform).to.be.exist
+    expect(Cypress.platform).to.be.exist  // Cypress.platform = 'darwin' 返回的底層操作系統名稱
   })
 })
 
@@ -163,7 +177,7 @@ context('Cypress.version', () => {
     cy.visit('https://example.cypress.io/cypress-api')
   })
 
-  it('Get current version of Cypress being run', () => {
+  it('Get current version of Cypress being run', () => { // cypress 版本
     // https://on.cypress.io/version
     expect(Cypress.version).to.be.exist
   })
@@ -174,7 +188,7 @@ context('Cypress.spec', () => {
     cy.visit('https://example.cypress.io/cypress-api')
   })
 
-  it('Get current spec information', () => {
+  it('Get current spec information', () => { // 返回所測試規範的屬性
     // https://on.cypress.io/spec
     // wrap the object so we can inspect it easily by clicking in the command log
     cy.wrap(Cypress.spec).should('include.keys', ['name', 'relative', 'absolute'])

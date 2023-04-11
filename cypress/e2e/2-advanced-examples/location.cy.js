@@ -2,19 +2,20 @@
 
 context('Location', () => {
   beforeEach(() => {
-    cy.visit('https://example.cypress.io/commands/location')
+    cy.visit('https://example.cypress.io/commands/location#aaa')
   })
 
   it('cy.hash() - get the current URL hash', () => {
     // https://on.cypress.io/hash
-    cy.hash().should('be.empty')
+    console.log('cy.hash()', cy.hash())
+    cy.hash().should('be.not.empty')
   })
 
   it('cy.location() - get window.location', () => {
     // https://on.cypress.io/location
     cy.location().should((location) => {
-      expect(location.hash).to.be.empty
-      expect(location.href).to.eq('https://example.cypress.io/commands/location')
+      expect(location.hash).to.be.not.empty
+      expect(location.href).to.eq('https://example.cypress.io/commands/location#aaa')
       expect(location.host).to.eq('example.cypress.io')
       expect(location.hostname).to.eq('example.cypress.io')
       expect(location.origin).to.eq('https://example.cypress.io')
@@ -27,6 +28,6 @@ context('Location', () => {
 
   it('cy.url() - get the current URL', () => {
     // https://on.cypress.io/url
-    cy.url().should('eq', 'https://example.cypress.io/commands/location')
+    cy.url().should('eq', 'https://example.cypress.io/commands/location#aaa')
   })
 })
