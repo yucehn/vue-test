@@ -5,14 +5,14 @@ context('Traversal', () => {
     cy.visit('https://example.cypress.io/commands/traversal')
   })
 
-  it('.children() - get child DOM elements', () => {
+  it('.children() - get child DOM elements', () => { // 獲取一組DOM元素中每個DOM元素的子元素
     // https://on.cypress.io/children
     cy.get('.traversal-breadcrumb')
       .children('.active')
       .should('contain', 'Data')
   })
 
-  it('.closest() - get closest ancestor DOM element', () => {
+  it('.closest() - get closest ancestor DOM element', () => { // 獲取與選擇器相匹配的第一個DOM元素
     // https://on.cypress.io/closest
     cy.get('.traversal-badge')
       .closest('ul')
@@ -23,6 +23,9 @@ context('Traversal', () => {
     // https://on.cypress.io/eq
     cy.get('.traversal-list>li')
       .eq(1).should('contain', 'siamese')
+
+    cy.get('.traversal-list>li')
+      .eq(-2).should('contain', 'sphynx') // 從元素中的最後一個元素中找到第2個元素
   })
 
   it('.filter() - get DOM elements that match the selector', () => {
@@ -50,7 +53,7 @@ context('Traversal', () => {
       .last().should('contain', 'Submit')
   })
 
-  it('.next() - get next sibling DOM element', () => {
+  it('.next() - get next sibling DOM element', () => { // 獲取一組DOM元素中每個DOM元素緊接著的兄弟
     // https://on.cypress.io/next
     cy.get('.traversal-ul')
       .contains('apples').next().should('contain', 'oranges')
@@ -61,12 +64,15 @@ context('Traversal', () => {
     cy.get('.traversal-next-all')
       .contains('oranges')
       .nextAll().should('have.length', 3)
+    
+    // 查找每個li的以下所有兄弟。只保留 .selected 條件
+    cy.get('.traversal-next-all li').nextAll('.second').should('contain', 'oranges')
   })
 
   it('.nextUntil() - get next sibling DOM elements until next el', () => {
     // https://on.cypress.io/nextuntil
     cy.get('#veggies')
-      .nextUntil('#nuts').should('have.length', 3)
+      .nextUntil('#nuts').should('have.length', 3) // 查找 #veggies 直到 #nuts 之後元素的所有兄弟元素
   })
 
   it('.not() - remove DOM elements from set of DOM elements', () => {
@@ -115,7 +121,7 @@ context('Traversal', () => {
 
   it('.siblings() - get all sibling DOM elements', () => {
     // https://on.cypress.io/siblings
-    cy.get('.traversal-pills .active')
+    cy.get('.traversal-pills .active') // .active 兄弟元素
       .siblings().should('have.length', 2)
   })
 })

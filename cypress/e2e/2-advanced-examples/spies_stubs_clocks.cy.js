@@ -11,7 +11,7 @@ context('Spies, Stubs, and Clock', () => {
       foo () {},
     }
 
-    const spy = cy.spy(obj, 'foo').as('anyArgs')
+    const spy = cy.spy(obj, 'foo').as('anyArgs') // >>> cy.spy(object, method)
 
     obj.foo()
 
@@ -41,7 +41,9 @@ context('Spies, Stubs, and Clock', () => {
       obj.foo('second')
     }, 2500)
 
-    cy.get('@foo').should('have.been.calledTwice')
+    obj.foo('hi')
+
+    cy.get('@foo').should('have.been.calledTwice') // calledThrice (ok)
   })
 
   it('cy.stub() - create a stub and/or replace a function with stub', () => {
@@ -64,6 +66,7 @@ context('Spies, Stubs, and Clock', () => {
     obj.foo('foo', 'bar')
 
     expect(stub).to.be.called
+    // >> cy.get('@foo').should('to.be.called')
   })
 
   it('cy.clock() - control time in the browser', () => {
@@ -71,12 +74,14 @@ context('Spies, Stubs, and Clock', () => {
 
     // create the date in UTC so its always the same
     // no matter what local timezone the browser is running in
+    // 覆蓋了與時間相關的本地全局函數
     const now = new Date(Date.UTC(2017, 2, 14)).getTime()
-
     cy.clock(now)
     cy.visit('https://example.cypress.io/commands/spies-stubs-clocks')
     cy.get('#clock-div').click()
       .should('have.text', '1489449600')
+    
+    // clock.restore() >> 恢復時間 [通常無需手動還原 cy.clock() 覆蓋的本機函數，因為這是在測試之間自動完成的]
   })
 
   it('cy.tick() - move time in the browser', () => {
@@ -110,7 +115,7 @@ context('Spies, Stubs, and Clock', () => {
     }
 
     cy.stub(greeter, 'greet')
-      .callThrough() // if you want non-matched calls to call the real method
+      .callThrough() // if you want non-matched calls to call the real method >> 當我們希望服務方法能依正式作業的方法執行，但又想要驗證呼叫此方法的參數是否正確
       .withArgs(Cypress.sinon.match.string).returns('Hi')
       .withArgs(Cypress.sinon.match.number).throws(new Error('Invalid name'))
 
@@ -140,7 +145,7 @@ context('Spies, Stubs, and Clock', () => {
 
     expect(calculator.add(2, 3)).to.equal(5)
 
-    // if we want to assert the exact values used during the call
+    // if we want to assert the exact values used during the call >> 使用 calledWith 可以assert出來
     expect(spy).to.be.calledWith(2, 3)
 
     // let's confirm "add" method was called with two numbers
@@ -178,8 +183,10 @@ context('Spies, Stubs, and Clock', () => {
      * @param {number} limit
      * @returns {(x: number) => boolean}
      */
-    const isLessThan = (limit) => (x) => x < limit
-
+    const isLessThan = (limit) => (x) => {
+      console.log('isLessThan', x, limit)
+      return x < limit
+    }
     // you can combine several matchers using "and", "or"
     expect(spy).to.be.calledWith(
       Cypress.sinon.match.number,
@@ -196,7 +203,7 @@ context('Spies, Stubs, and Clock', () => {
       Cypress.sinon.match.number, Cypress.sinon.match(3))
 
     // you can alias matchers for shorter test code
-    const { match: M } = Cypress.sinon
+    const { match: M } = Cypress.sinon // >> { Cypress.sinon.match: M }
 
     cy.get('@add').should('have.been.calledWith', M.number, M(3))
   })

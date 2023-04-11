@@ -25,8 +25,8 @@ context('Viewport', () => {
     // We added a cy.wait() between each viewport change so you can see
     // the change otherwise it is a little too fast to see :)
 
-    cy.viewport('macbook-15')
-    cy.wait(200)
+    cy.viewport('macbook-15') // 預設維度來設置視口。預設支持以下選項。
+    cy.wait(2000)
     cy.viewport('macbook-13')
     cy.wait(200)
     cy.viewport('macbook-11')
@@ -48,10 +48,10 @@ context('Viewport', () => {
 
     // cy.viewport() accepts an orientation for all presets
     // the default orientation is 'portrait'
-    cy.viewport('ipad-2', 'portrait')
-    cy.wait(200)
-    cy.viewport('iphone-4', 'landscape')
-    cy.wait(200)
+    cy.viewport('ipad-2', 'portrait') // 預設
+    cy.wait(2000)
+    cy.viewport('ipad-2', 'landscape') // 轉向
+    cy.wait(2000)
 
     // The viewport will be reset back to the default dimensions
     // in between tests (the  default can be set in cypress.config.{js|ts})

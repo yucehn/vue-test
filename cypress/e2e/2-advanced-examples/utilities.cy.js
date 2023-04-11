@@ -5,7 +5,7 @@ context('Utilities', () => {
     cy.visit('https://example.cypress.io/utilities')
   })
 
-  it('Cypress._ - call a lodash method', () => {
+  it('Cypress._ - call a lodash method', () => { // 在 Cypress._ 上調用任何有效的Lodash方法
     // https://on.cypress.io/_
     cy.request('https://jsonplaceholder.cypress.io/users')
       .then((response) => {
@@ -25,14 +25,14 @@ context('Utilities', () => {
       .should('have.class', 'active')
   })
 
-  it('Cypress.Blob - blob utilities and base64 string conversion', () => {
+  it('Cypress.Blob - blob utilities and base64 string conversion', () => { // 使用 Cypress.Blob 將 base64 字符串轉換為Blob對象
     // https://on.cypress.io/blob
     cy.get('.utility-blob').then(($div) => {
       // https://github.com/nolanlawson/blob-util#imgSrcToDataURL
       // get the dataUrl string for the javascript-logo
       return Cypress.Blob.imgSrcToDataURL('https://example.cypress.io/assets/img/javascript-logo.png', undefined, 'anonymous')
       .then((dataUrl) => {
-        // create an <img> element and set its src to the dataUrl
+        // create an <img> element and set its src to the dataUrl // 創建一個 img 元素並將其 src 設置為 dataUrl << base64
         let img = Cypress.$('<img />', { src: dataUrl })
 
         // need to explicitly return cy here since we are initially returning
@@ -87,6 +87,7 @@ context('Utilities', () => {
       // return a promise that resolves after 1 second
       return new Cypress.Promise((resolve, reject) => {
         setTimeout(() => {
+          console.log('setTimeout')
           // set waited to true
           waited = true
 
@@ -100,6 +101,7 @@ context('Utilities', () => {
       // return a promise to cy.then() that
       // is awaited until it resolves
       return waitOneSecond().then((str) => {
+        console.log('waitOneSecond')
         expect(str).to.eq('foo')
         expect(waited).to.be.true
       })

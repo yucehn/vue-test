@@ -16,8 +16,8 @@ context('Local Storage / Session Storage', () => {
       expect(localStorage.getItem('prop3')).to.eq('magenta')
     })
 
-    // clearLocalStorage() yields the localStorage object
-    cy.clearLocalStorage().should((ls) => {
+    // clearLocalStorage() yields the localStorage object [current origin]
+    cy.clearLocalStorage().should((ls) => { // ls >> localStorage
       expect(ls.getItem('prop1')).to.be.null
       expect(ls.getItem('prop2')).to.be.null
       expect(ls.getItem('prop3')).to.be.null
@@ -71,11 +71,11 @@ context('Local Storage / Session Storage', () => {
     // https://on.cypress.io/clearalllocalstorage
     cy.get('.ls-btn').click()
 
-    // clearAllLocalStorage() yields null
+    // clearAllLocalStorage() yields null [all origins]
     cy.clearAllLocalStorage().should(() => {
-      expect(sessionStorage.getItem('prop1')).to.be.null
-      expect(sessionStorage.getItem('prop2')).to.be.null
-      expect(sessionStorage.getItem('prop3')).to.be.null
+      expect(localStorage.getItem('prop1')).to.be.null
+      expect(localStorage.getItem('prop2')).to.be.null
+      expect(localStorage.getItem('prop3')).to.be.null
     })
   })
 
@@ -85,6 +85,7 @@ context('Local Storage / Session Storage', () => {
 
     // getAllSessionStorage() yields a map of origins to sessionStorage values
     cy.getAllSessionStorage().should((storageMap) => {
+      
       expect(storageMap).to.deep.equal({
         // other origins will also be present if sessionStorage is set on them
         'https://example.cypress.io': {
