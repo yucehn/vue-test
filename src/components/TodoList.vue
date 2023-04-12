@@ -1,41 +1,72 @@
 <template>
   <div class="todoList">
-    <div>
-      ToDoList
+    <h2>Todo List</h2>
+    <p>Get things done, one item at a time.</p>
+    <div class="input-group mb-3">
       <input
-        class="to-do-text"
+        class="to-do-text form-control"
         v-model="todoInput"
         @keyup.enter="add"
-        placeholder="請輸入計畫要做的事情"
+        placeholder="Add to the todo list"
       />
-      <button class="btn_add" @click="add()" type="submit">click</button>
+      <button class="btn btn-secondary btn_add" @click="add()" type="submit">
+        Add item <i class="bi bi-airplane"></i>
+      </button>
     </div>
-    <div v-show="todoList.length" class="todoList-box">
-      <div class="tab">
-        <button test-tab="all" @click="tab = 0" type="button">全部</button>
-        <button test-tab="done" @click="tab = 1" type="button">已完成</button>
-        <button test-tab="undone" @click="tab = 2" type="button">未完成</button>
-      </div>
-      <ul v-show="filterTodoLis.length">
-        <li v-for="(item, index) in filterTodoLis" :key="item">
-          <input
-            type="checkbox"
-            name="item"
-            v-model="item.toggle"
-            @click="changeToggle(index, !item.toggle)"
-          />
-          <div>
+    <div v-show="todoList.length" class="card">
+      <div class="card-body todoList-box">
+        <div class="btn-group tab" role="group">
+          <button
+            class="btn"
+            :class="{ active: tab === 0 }"
+            test-tab="all"
+            @click="tab = 0"
+            type="button"
+          >
+            Total
+          </button>
+          <button
+            class="btn"
+            :class="{ active: tab === 1 }"
+            test-tab="done"
+            @click="tab = 1"
+            type="button"
+          >
+            Completed
+          </button>
+          <button
+            class="btn"
+            :class="{ active: tab === 2 }"
+            test-tab="undone"
+            @click="tab = 2"
+            type="button"
+          >
+            Pending
+          </button>
+        </div>
+        <ul v-show="filterTodoLis.length">
+          <li v-for="(item, index) in filterTodoLis" :key="item">
             <input
-              data-test="box_input"
-              class="todoList-box_input"
-              v-model="item.value"
-              @blur="editValue(index, $event)"
-              type="text"
+              type="checkbox"
+              name="item"
+              v-model="item.toggle"
+              @click="changeToggle(index, !item.toggle)"
             />
-          </div>
-          <button class="btn_delete" @click="deleteItem(index)">X</button>
-        </li>
-      </ul>
+            <div class="input-group">
+              <input
+                data-test="box_input"
+                class="todoList-box_input form-control"
+                v-model="item.value"
+                @blur="editValue(index, $event)"
+                type="text"
+              />
+            </div>
+            <button class="btn btn_delete" @click="deleteItem(index)">
+              <i class="bi bi-trash-fill"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -120,12 +151,6 @@ export default {
   width: 360px;
   margin: 0 auto;
   &-box {
-    ul {
-      padding: 10px;
-      margin: 10px auto;
-      text-align: center;
-      border: 1px solid gray;
-    }
     li {
       display: flex;
       justify-content: space-between;
@@ -140,7 +165,13 @@ export default {
     }
   }
   .tab {
-    margin-top: 10px;
+    .btn {
+      &.active {
+        color: #a75d5d;
+        font-weight: bold;
+        border-color: transparent;
+      }
+    }
   }
 }
 </style>
