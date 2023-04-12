@@ -82,6 +82,7 @@ export default {
     const todoList = ref([]);
     // 新增
     const add = () => {
+      if (todoInput.value === "") return false;
       todoList.value.push({ value: todoInput.value, toggle: false });
       todoInput.value = "";
     };
