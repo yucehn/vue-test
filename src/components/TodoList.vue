@@ -4,8 +4,8 @@
     <p>Get things done, one item at a time.</p>
     <div class="input-group mb-3">
       <input
-        class="to-do-text form-control"
         v-model="todoInput"
+        class="to-do-text form-control"
         @keyup.enter="add"
         placeholder="Add to the todo list"
       />
@@ -145,33 +145,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.todoList {
-  width: 360px;
-  margin: 0 auto;
-  &-box {
-    li {
-      display: flex;
-      justify-content: space-between;
-      text-align: left;
-      padding: 10px;
-    }
-    &_input {
-      border: none;
-      &:focus {
-        border: 1px solid gray;
-      }
-    }
-  }
-  .tab {
-    .btn {
-      &.active {
-        color: #a75d5d;
-        font-weight: bold;
-        border-color: transparent;
-      }
-    }
-  }
-}
-</style>
