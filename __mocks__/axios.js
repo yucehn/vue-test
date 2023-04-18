@@ -1,8 +1,8 @@
 const toToList = {
   success: true,
   data: [
-    { value: "讀書一小時", toggle: false },
-    { value: "買文具", toggle: true },
+    { value: "Pay electric bill", toggle: false },
+    { value: "Walk the dog", toggle: false },
   ],
 };
 

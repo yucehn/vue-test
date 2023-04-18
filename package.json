@@ -6,10 +6,12 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit --coverage",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "serve-mock": "vue-cli-service serve --mode mock"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.7",
+    "axios": "^1.3.5",
     "bootstrap": "^5.0.2",
     "bootstrap-icons": "^1.10.4",
     "core-js": "^3.8.3",
@@ -33,6 +35,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.0.3",
     "jest": "^27.0.5",
+    "mockjs": "^1.1.0",
     "node-sass": "^8.0.0",
     "prettier": "^2.4.1",
     "sass-loader": "^13.2.2"

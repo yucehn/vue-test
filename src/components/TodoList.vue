@@ -44,13 +44,14 @@
             Pending
           </button>
         </div>
-        <ul v-show="filterTodoLis.length">
+        <ul v-show="filterTodoLis.length" class="todo-list">
           <li v-for="(item, index) in filterTodoLis" :key="item">
             <input
               type="checkbox"
               name="item"
               v-model="item.toggle"
               @click="changeToggle(index, !item.toggle)"
+              :value="item.value"
             />
             <div class="input-group">
               <input
@@ -73,7 +74,7 @@
 
 <script>
 import { computed, onMounted, ref } from "vue";
-// import * as axios from "../../__mocks__/axios";
+import * as axios from "../../__mocks__/axios";
 
 export default {
   setup() {
@@ -122,14 +123,14 @@ export default {
 
     onMounted(() => {
       {
-        // axios
-        //   .get("toToList.json")
-        //   .then((res) => {
-        //     todoList.value = res.data;
-        //   })
-        //   .catch((err) => {
-        //     console.log(err);
-        //   });
+        axios
+          .get("toToList.json")
+          .then((res) => {
+            todoList.value = res.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     });
 
