@@ -3,11 +3,11 @@ describe("template spec", () => {
       cy.visit("http://localhost:8080");
   });
 
-  it('test sign in and logout', async ()=>{
+  it('test sign in and logout',()=>{
     cy.get('.btn-signIn').click();
     cy.get('#username').type('yuyu').should('have.value', 'yuyu')
     cy.get('#password').type('Qaz123')
-    await cy.get('.login-from').submit()
+    cy.get('.login-from').submit()
     cy.contains('Logout')
     cy.get('.btn-logout').click();
   })
