@@ -122,16 +122,14 @@ export default {
     });
 
     onMounted(() => {
-      {
-        axios
-          .get("toToList.json")
-          .then((res) => {
-            todoList.value = res.data;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+      axios
+        .get("toToList.json")
+        .then((res) => {
+          todoList.value = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
 
     return {

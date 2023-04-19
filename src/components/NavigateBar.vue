@@ -23,7 +23,7 @@
         </ul>
         <div v-if="!isLogin">
           <button
-            class="btn btn-secondary me-2"
+            class="btn btn-secondary me-2 btn-signIn"
             data-bs-toggle="modal"
             data-bs-target="#loginModal"
             @click="openType = 'signIn'"
@@ -31,7 +31,7 @@
             Sign in
           </button>
           <button
-            class="btn btn-outline-secondary"
+            class="btn btn-outline-secondary btn-signUp"
             data-bs-toggle="modal"
             data-bs-target="#loginModal"
             @click="openType = 'signUp'"
@@ -39,7 +39,7 @@
             Sign up
           </button>
         </div>
-        <button v-else class="btn btn-secondary" @click="logout()">
+        <button v-else class="btn btn-secondary btn-logout" @click="logout()">
           Logout
         </button>
       </div>
@@ -49,27 +49,27 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import DialogLogin from "./DialogLogin.vue";
+import Index from "../stores/index";
 
 export default {
   components: { DialogLogin },
   setup() {
+    const { isLogin } = Index;
     const passwordShow = ref(false);
     const openType = ref("");
-    const isLogin = computed(() => {
-      return localStorage.getItem("login") === "true";
-    });
+
     const logout = () => {
       localStorage.removeItem("login");
-      location.reload();
+      isLogin.value = false;
     };
 
     return {
       passwordShow,
       openType,
-      isLogin,
       logout,
+      isLogin,
     };
   },
 };

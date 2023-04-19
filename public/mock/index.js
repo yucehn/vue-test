@@ -41,7 +41,6 @@ Mock.mock("/api/login", "put", (options) => {
 });
 
 Mock.mock("/api/add/account", "post", (options) => {
-  console.log("api:", options);
   let body = JSON.parse(options.body);
 
   data.list.push({

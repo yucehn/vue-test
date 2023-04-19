@@ -24,7 +24,10 @@
           ></button>
         </div>
         <div class="modal-body">
-          <form class="row g-3 needs-validation" @submit.prevent="handleSubmit">
+          <form
+            class="row g-3 needs-validation login-from"
+            @submit.prevent="handleSubmit"
+          >
             <div class="mb-3">
               <label for="username" class="form-label">Account</label>
               <input
@@ -56,9 +59,8 @@
                   />
                 </span>
               </div>
-              <div class="invalid-feedback">Please provide a valid city.</div>
             </div>
-            <button type="submit" class="btn btn-outline-success">
+            <button type="submit" class="btn btn-outline-success btn-submit">
               {{ dialogText }}
             </button>
           </form>
@@ -73,6 +75,8 @@ import { computed, ref } from "vue";
 import axios from "axios";
 import { Modal } from "bootstrap";
 
+import Index from "../stores/index";
+
 export default {
   props: {
     openType: {
@@ -81,6 +85,8 @@ export default {
     },
   },
   setup(props) {
+    const { isLogin } = Index;
+
     const passwordShow = ref(false);
     const username = ref("");
     const password = ref("");
@@ -94,10 +100,9 @@ export default {
 
     const handleSubmit = async () => {
       if (username.value === "" && password.value === "") return;
-      console.log(props.openType, props.openType === "signUp");
+
       let apiResult = {};
       if (props.openType === "signUp") {
-        console.log("signUp");
         apiResult = await axios.post("/api/add/account", {
           username: username.value,
           password: password.value,
@@ -111,11 +116,14 @@ export default {
 
       if (apiResult.data.result) {
         localStorage.setItem("login", true);
+        isLogin.value = true;
+        username.value = "";
+        password.value = "";
         closeModal();
-        location.reload();
       } else {
         localStorage.removeItem("login");
         alert(apiResult.data.message);
+        isLogin.value = false;
       }
     };
 
@@ -126,7 +134,7 @@ export default {
       dialogText,
       handleSubmit,
       loginModalRef,
-      // closeModal,
+      isLogin,
     };
   },
 };
