@@ -4,10 +4,11 @@ describe("template spec", () => {
   });
 
   it('test sign in and logout', async ()=>{
+    // cy.get('.btn-signIn').debug()
     cy.get('.btn-signIn').click();
     cy.get('#username').type('yuyu').should('have.value', 'yuyu')
     cy.get('#password').type('Qaz123')
-    await cy.get('.login-from').submit()
+    cy.get('.login-from').submit()
     cy.contains('Logout')
     cy.get('.btn-logout').click();
   })
