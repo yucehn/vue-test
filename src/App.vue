@@ -9,7 +9,6 @@ export default {
   components: {
     NavigateBar,
   },
-  setup() {},
 };
 </script>
 

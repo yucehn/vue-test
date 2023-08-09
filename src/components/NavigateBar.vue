@@ -1,5 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top bg-light">
+  <nav
+    class="navbar navbar-expand-lg bg-body-tertiary fixed-top bg-light text-center"
+  >
     <div class="container-fluid">
       <a class="navbar-brand" href="#"
         ><img src="../assets/images/logo.png" height="30"
@@ -17,9 +19,16 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <!-- <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">Home</a>
-          </li> -->
+          <li class="nav-item">
+            <router-link class="nav-link" aria-current="Home" to="/">
+              Home
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" aria-current="About" to="/about">
+              About
+            </router-link>
+          </li>
         </ul>
         <div v-if="!isLogin">
           <button
@@ -56,6 +65,7 @@ import Index from "../stores/index";
 export default {
   components: { DialogLogin },
   setup() {
+    const isOpen = ref(false);
     const { isLogin } = Index;
     const passwordShow = ref(false);
     const openType = ref("");
@@ -66,6 +76,7 @@ export default {
     };
 
     return {
+      isOpen,
       passwordShow,
       openType,
       logout,
